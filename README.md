@@ -1,6 +1,6 @@
 # Docker stack for virtualhosts-enabled web development
 
-This is collection of Docker Compose (actually only one) will help you to host several websites locally, each with individual *.localhost subdomain and specific Apache/PHP version and settings:
+This collection of Docker Compose (actually only one) will help you to host several websites locally, each with individual `*.localhost` subdomain and specific Apache/PHP version and settings:
 
 ![](https://files.italic.fr/Sélection_03052021_0bfa.png)
 
@@ -27,7 +27,7 @@ The WGUI management interface:
 
 https://docs.docker.com/engine/install/
 
-## 1.2. Download or clone to your server root (eg, ~/user/sites)
+## 1.2. Download or clone to your server root or user directory (eg, `~/user/sites`)
 
 ```
 git clone https://github.com/Germain-Italic/docker.git
@@ -52,11 +52,15 @@ Default: you should see a 503 error on http://localhost/
 - **P**HP 7.4
 
 
-First, **rename `docker/LAMP-Alp-2.4-10.4-7.4/.env.dist` to `.env`**
+First, rename `docker/LAMP-Alp-2.4-10.4-7.4/.env.dist` to `.env`, then build and launch:
 
 ```
+mv docker/LAMP-Alp-2.4-10.4-7.4/.env.dist docker/LAMP-Alp-2.4-10.4-7.4/.env
 docker-compose -f LAMP-Alp-2.4-10.4-7.4/docker-compose.yml up --build
 ```
+
+Use `ctrl+C` to exit the process. Add `--detach` to have your shell back.
+
 
 ### 1.2.3. Edit your `hosts` file to route subdomain requests
 
@@ -98,7 +102,8 @@ docker-compose -f ${NEWPROJECT}/docker-compose.yml --env-file ${NEWPROJECT}/.env
 ```
 
 If you are adding this project for the first time, add the external `${NEWPROJECT}_public` newtork to `nginx-proxy/docker-compose.yml`
-⚠️ Be careful to avoid network duplicates in `nginx-proxy/docker-compose.yml`
+
+⚠️ Be careful to avoid duplicate networks in `nginx-proxy/docker-compose.yml`!
 
 
 ```
@@ -114,19 +119,19 @@ docker-compose -f nginx-proxy/docker-compose.yml --env-file nginx-proxy/.env up 
 
 ### 1.2.6. Deleting a virtual host
 
-If you just wan't to stop/delete the `${NEWPROJECT}` containers without deleting the project files from your drive, skip this step.
+If you just want to stop/delete the `${NEWPROJECT}` stack's containers without deleting the project files from your drive, skip this step.
 
-If you wan to delete the project permanently, you will have to tear down the reverse proxy **first** because it has a link to the `${NEWPROJECT}_public` external network.
+If you wan to delete the project completely, you will have to tear down the reverse proxy **first** because it has a link to the `${NEWPROJECT}_public` external network.
 
-If you remove the `${NEWPROJECT}` containers without stopping the reverse proxy, however the `${NEWPROJECT}_public` won't be deleted.
+If you remove the `${NEWPROJECT}` containers without stopping the reverse proxy, however the `${NEWPROJECT}_public` network won't be deleted.
 
+To delete volumes, type `down -v` instead.
 
 ```
 NEWPROJECT=myproject
 docker-compose -f nginx-proxy/docker-compose.yml --env-file nginx-proxy/.env down
 docker-compose -f ${NEWPROJECT}/docker-compose.yml --env-file ${NEWPROJECT}/.env down
 docker-compose -f nginx-proxy/docker-compose.yml --env-file nginx-proxy/.env up --build --detach
-rm -rfi ${NEWPROJECT}
 ```
 
 ---
@@ -138,7 +143,7 @@ rm -rfi ${NEWPROJECT}
 ## 2.1. Start / Stop
 
 ```
-cd <container_name>
+cd myproject
 
 # keep the console open and show the logs
 docker-compose up
@@ -163,6 +168,7 @@ docker-compose restart db
 # _Stops containers and removes containers, networks, volumes, and images created by up_
 # from https://docs.docker.com/compose/reference/down/
 docker-compose down
+docker-compose down -v # Warning, will delete data
 
 # stop a single service
 docker-compose down apache
@@ -258,7 +264,7 @@ docker logs ${PROJECT}-db
 ---
 
 
-# 3. Managing containers visually
+# 3. Managing containers with GUI
 
 ## 3.1. Via Portainer (preferred method)
 
