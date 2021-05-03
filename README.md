@@ -399,9 +399,20 @@ _After:_
 
 # 6. Resources
 
+## 6.1. Docs
 - https://docs.docker.com/compose/
 - https://docs.docker.com/compose/networking/
+
+## 6.2. Examples
 - https://docs.docker.com/samples/wordpress/
 - https://github.com/docker/awesome-compose
+
+
+## 6.3. Security
 - https://w3blog.fr/2016/02/23/docker-securite-10-bonnes-pratiques/
+
+## 6.4. Permissions
 - https://blog.gougousis.net/file-permissions-the-painful-side-of-docker/
+- https://vsupalov.com/docker-shared-permissions/
+- https://medium.com/redbubble/running-a-docker-container-as-a-non-root-user-7d2e00f8ee15#:~:text=The%20Problem%3A%20Docker%20writes%20files,owned%20by%20the%20root%20user
+- https://forums.docker.com/t/systemd-coredump-taking-ownership-of-tmp-db-directory-and-contents-in-rails-app/93609
