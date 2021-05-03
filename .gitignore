@@ -1,0 +1,15 @@
+
+LAMP-Alp-2.4-10.4-7.4/.env
+LAMP-Alp-2.4-10.4-7.4/www/*
+!LAMP-Alp-2.4-10.4-7.4/www/.gitkeep
+
+nginx-proxy/dhparam/*
+!nginx-proxy/dhparam/.gitkeep
+
+nginx-proxy/certs/*
+!nginx-proxy/certs/.gitkeep
+
+portainer/portainer_data/*
+!portainer/portainer_data/.gitkeep
+
+myproject/

@@ -1,0 +1,76 @@
+version: '3.7'
+#
+networks:
+  public:  
+    driver: bridge
+    attachable: true
+  private:
+    driver: bridge
+    attachable: false
+#
+services:
+  apache:
+    image: httpd:2.4-alpine
+    container_name: ${PROJECT}-apache
+    volumes:
+      - ./www:/usr/local/apache2/htdocs
+      - ./docker-alias:/usr/local/apache2/docker-alias
+      - ./conf/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+    environment:
+      - PROJECT=${PROJECT}
+      - TAG=${TAG}
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+      - FIREWALL_WHITELIST_IPS=${FIREWALL_WHITELIST_IPS}
+      - FIREWALL_WHITELIST_HOSTS=${FIREWALL_WHITELIST_HOSTS}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - APACHE_FORWARD_PORT=${APACHE_FORWARD_PORT}
+      - PORTAINER_PORT=${PORTAINER_PORT}
+      - DOCKER_ALIAS=${DOCKER_ALIAS}
+    hostname: ${VIRTUAL_HOST}
+    domainname: ${VIRTUAL_HOST}
+    networks:
+      - public
+      - private
+    ports:
+      - ${APACHE_FORWARD_PORT}:${APACHE_PORT}
+    expose:
+      - ${APACHE_FORWARD_PORT}
+    depends_on:
+      - php
+#
+#
+  php:
+    build:
+      context: .
+      dockerfile: ./conf/php/Dockerfile
+    container_name: ${PROJECT}-php
+    volumes:
+      - ./www:/usr/local/apache2/htdocs
+      - ./docker-alias:/usr/local/apache2/docker-alias
+      - ./conf/php/php.ini-production:/usr/local/etc/php/conf.d/php.ini:ro
+    environment:
+      - NETWORK_ACCESS=internal
+    networks:
+      - private
+    expose:
+      - 9000
+#
+#
+  db:
+    image: mariadb:10.4
+    container_name: ${PROJECT}-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - NETWORK_ACCESS=internal
+    ports:
+      - ${MYSQL_PORT}
+    networks:
+      - private

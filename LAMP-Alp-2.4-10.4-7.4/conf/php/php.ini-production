@@ -1,0 +1,14 @@
+zend.exception_ignore_args = On
+memory_limit = 512M
+error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
+display_errors = Off
+display_startup_errors = Off
+post_max_size = 256M
+upload_max_filesize = 256M
+date.timezone = Europe/Paris
+mysqlnd.collect_memory_statistics = Off
+zend.assertions = -1
+;opcache.huge_code_pages=1
+
+log_errors = On
+error_log = /dev/stderr

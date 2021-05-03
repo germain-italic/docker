@@ -1,0 +1,26 @@
+version: "3.7"
+#
+networks: 
+  lamp-alp-24-104-74_public:
+    external: true
+  myproject_public:
+    external: true
+#
+services:
+  reverse-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    environment: 
+      - DEFAULT_HOST=${DEFAULT_HOST}
+    volumes:
+      - ./certs:/etc/nginx/certs
+      - ./dhparam:/etc/nginx/dhparam
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    hostname: localhost
+    domainname: localhost
+    networks:
+      - lamp-alp-24-104-74_public
+      - myproject_public
+    ports:
+    - "80:80"
