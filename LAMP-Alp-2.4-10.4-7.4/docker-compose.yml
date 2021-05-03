@@ -50,7 +50,7 @@ services:
       dockerfile: ./conf/php/Dockerfile
     container_name: ${PROJECT}-php
     volumes:
-      - ./www:/usr/local/apache2/htdocs
+      - ${APACHE_DOCROOT}:/usr/local/apache2/htdocs
       - ./docker-alias:/usr/local/apache2/docker-alias
       - ./conf/php/php.ini-production:/usr/local/etc/php/conf.d/php.ini:ro
     environment:
