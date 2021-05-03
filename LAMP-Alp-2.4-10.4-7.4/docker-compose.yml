@@ -51,7 +51,6 @@ services:
       dockerfile: ./conf/php/Dockerfile
       args:
         - APK_ADD=${APK_ADD}
-        - PHP_EXTENSIONS_CONFIGURE=${PHP_EXTENSIONS_CONFIGURE}
         - PHP_EXTENSIONS_INSTALL=${PHP_EXTENSIONS_INSTALL}
     container_name: ${PROJECT}-php
     volumes:

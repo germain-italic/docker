@@ -3,8 +3,6 @@ version: "3.7"
 networks: 
   lamp-alp-24-104-74_public:
     external: true
-  myproject_public:
-    external: true
 #
 services:
   reverse-proxy:
@@ -21,6 +19,5 @@ services:
     domainname: localhost
     networks:
       - lamp-alp-24-104-74_public
-      - myproject_public
     ports:
     - "80:80"

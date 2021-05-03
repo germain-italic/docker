@@ -11,9 +11,10 @@ This collection of Docker Compose (actually only one) will help you to host seve
 The reverse proxy:
 - https://hub.docker.com/r/jwilder/nginx-proxy/
 
-The first stack:
+The demo stack:
 - https://hub.docker.com/_/httpd
 - https://hub.docker.com/_/php
+- https://github.com/mlocati/docker-php-extension-installer
 - https://hub.docker.com/_/mariadb
 - https://www.adminer.org/
 
